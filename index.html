@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>my miner</title>
+  <style>
+    * {
+      font-family: monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>my miner</h1>
+  <p>by text mining unit at barcelona supercomputing center</p>
+  <h2>input</h2>
+  <p>The input should be a plain text file with one short text per line.</p>
+  <label for="input">Input file</label>
+  <input type="file" id="input">
+  <h2>working area</h2>
+  <pre id="text"></pre>
+  <div>
+    <button id="yes">yes</button>
+    <button id="no">no</button>
+  </div>
+  <h2>output</h2>
+  <a id="download" href="" download="">download results as tsv</a>
+</body>
+
+<script>
+  const inputElement = document.getElementById('input')
+  const textElement = document.getElementById('text')
+  const yesButton = document.getElementById('yes')
+  const noButton = document.getElementById('no')
+  const downloadButton = document.getElementById('download')
+  let lines = []
+  const results = []
+  let filename
+
+  inputElement.addEventListener('change', handleInputFile)
+  yesButton.addEventListener('click', () => markAs(true))
+  noButton.addEventListener('click', () => markAs(false))
+  downloadButton.addEventListener('click', download)
+
+  function handleInputFile(input) {
+    const file = input.target.files[0]
+    filename = file.name
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const content = event.target.result
+      lines = content.split(/\r?\n/)
+      textElement.textContent = lines.shift()
+    }
+    reader.onerror = (event) => {
+      alert(event.target.error.name)
+    }
+    reader.readAsText(file)
+  }
+
+  function markAs(hasChosen) {
+    const text = textElement.textContent
+    result = { text, hasChosen }
+    results.push(result)
+    textElement.textContent = lines.shift()
+  }
+
+  function download() {
+    const tsv = results.map(result => `${result.text}\t${result.hasChosen}`).join('\n')
+    const data = new Blob([tsv], { type: 'text/plain;charset=UTF-8"', encoding: "UTF-8" })
+    const url = window.URL.createObjectURL(data)
+    downloadButton.href = url
+    downloadButton.download = `${filename}-myminer-results-${new Date().toISOString()}.tsv`
+  }
+</script>
+
+</html>
