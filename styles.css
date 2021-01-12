@@ -1,0 +1,9 @@
+* {
+  font-family: monospace;
+}
+
+#textContainer {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+}

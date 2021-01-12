@@ -13,8 +13,7 @@
   <p>by text mining unit at barcelona supercomputing center</p>
   <h2>input (txt)</h2>
   <p>The input should be a plain text file with one short text per line.</p>
-  <label for="loadFileInput"></label>
-  <input type="file" id="loadFileInput" />
+  <button id="loadFileButton">load file</button>
   <h2>working area</h2>
   <pre id="textContainer"></pre>
   <div>
@@ -22,8 +21,8 @@
     <button id="rejectButton">reject</button>
   </div>
   <h2>output (tsv)</h2>
-  <a id="saveFileLink" href="" download="">save file</a>
-  <script src="index.js"></script>
+  <button id="saveFileButton">save file</button>
+  <script src="index-FileSystemAccessAPI.js"></script>
 </body>
 
 </html>
